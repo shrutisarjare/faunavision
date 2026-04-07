@@ -9,7 +9,7 @@ opencv-python-headless
 scikit-learn
 pandas
 requests
-tensorflow
+tensorflow-cpu
 tensorflow-hub
 librosa
 openpyxl
