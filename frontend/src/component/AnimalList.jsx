@@ -33,7 +33,7 @@ const animal = params.animal;
 
         // 🔥 DETECTION FLOW (FIXED)
         if (!region) {
-          url = `http://localhost:8000/search/${cleanAnimal}`;
+          url = `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/search/${cleanAnimal}`;
         }
 
         // 🟢 NAVIGATION FLOW (UNCHANGED)
@@ -47,7 +47,7 @@ const animal = params.animal;
 
           const formattedState = encodeURIComponent(state.toLowerCase());
 
-          url = `http://localhost:8000/animal/${region}/${category}/${formattedState}/${cleanAnimal}`;
+          url = `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/animal/${region}/${category}/${formattedState}/${cleanAnimal}`;
         }
 
         console.log("🚀 CALLING:", url);

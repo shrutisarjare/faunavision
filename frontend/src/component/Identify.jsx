@@ -117,7 +117,7 @@ const Identify = () => {
       if (description.trim() !== "") {
 
         const response = await fetch(
-          "http://127.0.0.1:8000/identify-text",
+          `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/identify-text`,
           {
             method: "POST",
             headers: {
@@ -140,7 +140,7 @@ const Identify = () => {
         formData.append("file", imageFile);
 
         const response = await fetch(
-          "http://127.0.0.1:8000/identify-image",
+          `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/identify-image`,
           {
             method: "POST",
             body: formData
@@ -162,7 +162,7 @@ const Identify = () => {
         formData.append("file", videoFile);
 
         const response = await fetch(
-          "http://127.0.0.1:8000/identify-video",
+          `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/identify-video`,
           {
             method: "POST",
             body: formData
@@ -184,7 +184,7 @@ const Identify = () => {
         formData.append("file", audioFile);
 
         const response = await fetch(
-          "http://127.0.0.1:8000/identify-audio",
+          `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/identify-audio`,
           {
             method: "POST",
             body: formData

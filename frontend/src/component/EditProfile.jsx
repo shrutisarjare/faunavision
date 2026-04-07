@@ -31,7 +31,7 @@ const EditProfile = () => {
       setLoading(true);
 
       const response = await fetch(
-        "http://127.0.0.1:8000/update-profile",
+        `${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/update-profile`,
         {
           method: "PUT",
           headers: {

@@ -4,7 +4,7 @@ const History = () => {
   const [history, setHistory] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/history")
+    fetch(`${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/history`)
       .then(res => res.json())
       .then(data => setHistory(data))
       .catch(err => console.error("Error fetching history:", err));

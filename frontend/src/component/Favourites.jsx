@@ -6,7 +6,7 @@ const Favourites = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/favourites")
+    fetch(`${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/favourites`)
       .then(res => res.json())
       .then(setFavs);
   }, []);

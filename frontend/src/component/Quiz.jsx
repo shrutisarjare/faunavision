@@ -6,7 +6,7 @@ const Quiz = () => {
   const [score, setScore] = useState(0);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/quiz")
+    fetch(`${import.meta.env.VITE_ML_API_URL || 'http://localhost:8000'}/quiz`)
       .then(res => res.json())
       .then(setQuestions);
   }, []);

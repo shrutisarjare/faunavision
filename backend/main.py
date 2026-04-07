@@ -25,7 +25,7 @@ from fastapi import HTTPException
 
 from pymongo import MongoClient
 
-client = MongoClient("mongodb://127.0.0.1:27017/")
+client = MongoClient(os.environ.get("MONGO_URI", "mongodb://127.0.0.1:27017/"))
 db = client["endangered"]
 users_collection = db["users"]
 # ================= GEO MAPPING =================
