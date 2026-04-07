@@ -12,7 +12,9 @@ const Contact = () => {
     setError("");
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5001'}/api/contact`, {
+      const baseUrl = import.meta.env.PROD ? "" : "http://localhost:5001";
+      const apiUrl = import.meta.env.VITE_API_URL !== undefined ? import.meta.env.VITE_API_URL : baseUrl;
+      const res = await fetch(`${apiUrl}/api/contact`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -5,5 +5,11 @@ python-dotenv
 python-multipart
 numpy
 pillow
-opencv-python
+opencv-python-headless
 scikit-learn
+pandas
+requests
+tensorflow
+tensorflow-hub
+librosa
+openpyxl
