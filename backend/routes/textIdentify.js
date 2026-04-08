@@ -1,8 +1,5 @@
 const express = require("express");
-const natural = require("natural");
-
 const router = express.Router();
-const tokenizer = new natural.WordTokenizer();
 
 // Animal knowledge base
 const animals = {
@@ -21,21 +18,16 @@ router.post("/identify-text", (req, res) => {
     return res.json({ prediction: "No text provided" });
   }
 
-  const tokens = tokenizer.tokenize(text.toLowerCase());
+  const tokens = text.toLowerCase().split(/\W+/);
 
   let bestAnimal = null;
   let bestScore = 0;
 
   for (const animal in animals) {
     let score = 0;
-
     for (const keyword of animals[animal]) {
       for (const token of tokens) {
-
-        const similarity =
-          natural.JaroWinklerDistance(token, keyword);
-
-        if (similarity > 0.85) {
+        if (token.includes(keyword) || keyword.includes(token)) {
           score++;
         }
       }
