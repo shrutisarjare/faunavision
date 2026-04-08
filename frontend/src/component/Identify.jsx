@@ -131,6 +131,7 @@ const Identify = () => {
 
         const data = await response.json();
         setResult(data.species);
+        navigate(`/detect/${data.species.toLowerCase()}`);
       }
 
       // IMAGE INPUT
@@ -193,6 +194,7 @@ const Identify = () => {
 
         const data = await response.json();
         setResult(data.species);
+        navigate(`/detect/${data.species.toLowerCase()}`);
       }
 
     } catch {
