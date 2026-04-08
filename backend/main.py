@@ -357,7 +357,7 @@ async def identify_image(file: UploadFile = File(...)):
     return {
         "species": species,
         "image": image_url,
-        "results": search_all_animals(species)
+        "results": []
     }
 
 # ================= TEXT =================
@@ -379,7 +379,7 @@ def identify_text(data: TextInput):
 
     return {
         "species": species,
-        "results": search_all_animals(species)
+        "results": []
     }
 
 # ================= VIDEO =================
@@ -439,7 +439,7 @@ async def identify_video(file: UploadFile = File(...)):
 
     return {
         "species": final,
-        "results": search_all_animals(final)
+        "results": []
     }
 
 # ================= AUDIO =================
@@ -481,7 +481,7 @@ async def identify_audio(file: UploadFile = File(...)):
 
     return {
         "species": species,
-        "results": search_all_animals(species)
+        "results": []
     }
 
 # ================= EXPLORE FLOW =================
