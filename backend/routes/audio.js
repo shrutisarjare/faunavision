@@ -10,7 +10,7 @@ const router = express.Router();
 // Configure Multer (file upload)
 // ------------------------------
 const upload = multer({
-  dest: "uploads/", // temporary upload folder
+  dest: "/tmp/", // temporary upload folder
 });
 
 // ------------------------------
