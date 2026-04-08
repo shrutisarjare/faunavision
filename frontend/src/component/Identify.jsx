@@ -21,6 +21,7 @@ const Identify = () => {
   const [isRecording, setIsRecording] = useState(false);
 
   const [loading, setLoading] = useState(false);
+  const [loadingText, setLoadingText] = useState("Processing...");
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 

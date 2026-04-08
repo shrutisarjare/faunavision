@@ -1,5 +1,6 @@
 # ================= IMPORTS =================
 import os
+import uuid
 import requests
 from fastapi import FastAPI, File, UploadFile
 from fastapi import UploadFile, File
@@ -325,9 +326,8 @@ def generate_quiz():
     return questions
 
 # ================= IMAGE =================
-def predict_image(file):
-    contents = file.file.read()
-    img = image.load_img(BytesIO(contents), target_size=(224, 224))
+def predict_image(file_path):
+    img = image.load_img(file_path, target_size=(224, 224))
 
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
@@ -340,7 +340,18 @@ def predict_image(file):
 
 @app.post("/identify-image")
 async def identify_image(file: UploadFile = File(...)):
-    species = predict_image(file)
+    extension = os.path.splitext(file.filename)[1] or ".jpg"
+    temp_path = f"temp_{uuid.uuid4().hex}{extension}"
+
+    with open(temp_path, "wb") as buffer:
+        buffer.write(await file.read())
+
+    try:
+        species = predict_image(temp_path)
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
     image_url = get_image_from_wiki(species)
 
     return {
@@ -404,21 +415,27 @@ def predict_frame(frame):
 @app.post("/identify-video")
 async def identify_video(file: UploadFile = File(...)):
 
-    temp_path = "temp_video.mp4"
+    extension = os.path.splitext(file.filename)[1] or ".mp4"
+    temp_path = f"temp_{uuid.uuid4().hex}{extension}"
 
     with open(temp_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(await file.read())
 
-    frames = extract_frames(temp_path)
-    results = []
+    try:
+        frames = extract_frames(temp_path)
+        
+        if not frames:
+            return {"species": "unknown", "results": []}
 
-    for frame in frames:
-        label = clean_species(predict_frame(frame))
-        results.append(label)
+        results = []
+        for frame in frames:
+            label = clean_species(predict_frame(frame))
+            results.append(label)
 
-    final = Counter(results).most_common(1)[0][0]
-
-    os.remove(temp_path)
+        final = Counter(results).most_common(1)[0][0]
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
 
     return {
         "species": final,
@@ -448,17 +465,19 @@ def map_audio_to_species(class_index):
 @app.post("/identify-audio")
 async def identify_audio(file: UploadFile = File(...)):
 
-    temp_path = "temp_audio.wav"
+    extension = os.path.splitext(file.filename)[1] or ".wav"
+    temp_path = f"temp_{uuid.uuid4().hex}{extension}"
 
     with open(temp_path, "wb") as buffer:
-        shutil.copyfileobj(file.file, buffer)
+        buffer.write(await file.read())
 
     try:
         species = map_audio_to_species(predict_audio(temp_path))
     except:
         species = "unknown"
-
-    os.remove(temp_path)
+    finally:
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
 
     return {
         "species": species,
